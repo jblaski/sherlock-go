@@ -1,33 +1,48 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"os"
 )
 
-// For loading data from file
+type SiteData struct {
+	errorType         string
+	url               string
+	urlMain           string
+	usernameClaimed   string
+	usernameUnclaimed string
+}
 
-// type SiteData struct {
-// 	errorType          string `json:"errorType"`
-// 	url                string `json:"url"`
-// 	urlMain            string `json:"urlMain"`
-// 	username_claimed   string `json:"username_claimed"`
-// 	username_unclaimed string `json:"username_unclaimed"`
-// }
+func readData(filepath string) (map[string]SiteData, error) {
 
-func readData() {
-	// Open our jsonFile
-	jsonFile, err := os.Open("data.json")
-	// if we os.Open returns an error then handle it
+	// open the file
+	content, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	fmt.Println("Successfully opened file")
-	// defer the closing of our jsonFile so that we can parse it later on
-	defer jsonFile.Close()
 
-	// read our opened jsonFile as a byte array.
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	fmt.Println(string(byteValue))
+	// unmarshall json
+	var payload map[string]interface{}
+	err = json.Unmarshal(content, &payload)
+	if err != nil {
+		return nil, err
+	}
+
+	// key site name, value site data
+	var siteData = make(map[string]SiteData)
+
+	// convert to desired structure
+	for key := range payload {
+		data := payload[key].(map[string]interface{})
+		siteData[key] = SiteData{
+			errorType:         fmt.Sprintf("%s", data["errorType"]),
+			url:               fmt.Sprintf("%s", data["url"]),
+			urlMain:           fmt.Sprintf("%s", data["urlMain"]),
+			usernameClaimed:   fmt.Sprintf("%s", data["username_claimed"]),
+			usernameUnclaimed: fmt.Sprintf("%s", data["username_unclaimed"]),
+		}
+	}
+
+	return siteData, nil
 }

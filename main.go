@@ -19,8 +19,7 @@ func main() {
 	}
 	fmt.Println("Supplied args: " + strings.Join(os.Args[1:], ", "))
 
-	readData()
-
+	readData("./resources/data.json")
 }
 
 func validateInput(args []string) error {
