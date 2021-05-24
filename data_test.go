@@ -44,3 +44,17 @@ func Test_readData_urlPresent(t *testing.T) {
 	}
 
 }
+
+func Test_filterByErrorType_message(t *testing.T) {
+	filepath := "./test_resources/test_data.json"
+	errorType := "message"
+
+	data, _ := readData(filepath)
+	filterByErrorType(errorType, data)
+
+	for site := range data {
+		if data[site].errorType != errorType {
+			t.Errorf("Filtered on errorType for %s but found entry with %s", errorType, data[site].errorType)
+		}
+	}
+}

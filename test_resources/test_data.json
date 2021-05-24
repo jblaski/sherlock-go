@@ -25,5 +25,13 @@
     "urlMain": "https://mobile.twitter.com/",
     "username_claimed": "blue",
     "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "Apple Discussions": {
+    "errorMsg": "The page you tried was not found. You may have used an outdated link or may have typed the address (URL) incorrectly.",
+    "errorType": "message",
+    "url": "https://discussions.apple.com/profile/{}",
+    "urlMain": "https://discussions.apple.com",
+    "username_claimed": "jason",
+    "username_unclaimed": "noonewouldeverusethis"
   }
 }

@@ -46,3 +46,11 @@ func readData(filepath string) (map[string]SiteData, error) {
 
 	return siteData, nil
 }
+
+func filterByErrorType(errorType string, siteDataMap map[string]SiteData) {
+	for key := range siteDataMap {
+		if siteDataMap[key].errorType != errorType {
+			delete(siteDataMap, key)
+		}
+	}
+}
